@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard | Green Hills Club</title>
+    <!-- Your links to TailwindCSS, Fonts, and Lucide icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- This will use a reusable header for logged-in members -->
+<div th:replace="~{fragments :: member-header}"></div>
+
+<main class="py-12 md:py-20">
+    <div class="container mx-auto px-6">
+
+        <!-- Personalized Welcome Message -->
+        <!-- Your MemberController will put the logged-in user's name in a 'username' attribute -->
+        <h1 class="text-4xl font-bold text-green-800 mb-4">
+            Welcome back, <span th:text="${username}">Member</span>!
+        </h1>
+        <p class="text-gray-600 mb-12">This is your personal hub for all club-related activities and news.</p>
+
+        <!-- Grid layout for dashboard cards -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Card for "My Membership" - This is the new part -->
+            <!-- We will check if a 'membership' object exists in the model -->
+            <div class="block bg-white p-8 rounded-lg shadow-lg">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="shield-check" class="h-10 w-10 text-green-600 mr-5"></i>
+                    <h2 class="text-2xl font-bold text-gray-800">My Membership</h2>
+                </div>
+                <div th:if="${membership}"> <!-- Only show content if membership exists -->
+                    <p class="text-gray-700"><strong>Plan:</strong> <span th:text="${membership.membershipType}">Gold</span></p>
+                    <p class="text-gray-700"><strong>Expires:</strong> <span th:text="${#temporals.format(membership.expiryDate, 'MMMM dd, yyyy')}">December 31, 2024</span></p>
+                </div>
+                <div th:unless="${membership}"> <!-- Show if user has no membership yet -->
+                    <p class="text-gray-700">You do not have an active membership plan.</p>
+                </div>
+            </div>
+
+            <!-- Link Card for "View Activities" -->
+            <a th:href="@{/member/activities}" class="block bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="award" class="h-10 w-10 text-green-600 mr-5"></i>
+                    <h2 class="text-2xl font-bold text-gray-800">View Activities</h2>
+                </div>
+                <p class="text-gray-600">Explore all the sports and fitness options available to you.</p>
+            </a>
+
+            <!-- Link Card for "Upcoming Events" -->
+            <a th:href="@{/member/events}" class="block bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-center mb-4">
+                    <i data-lucide="calendar" class="h-10 w-10 text-green-600 mr-5"></i>
+                    <h2 class="text-2xl font-bold text-gray-800">Upcoming Events</h2>
+                </div>
+                <p class="text-gray-600">See what's happening at the club and register for events.</p>
+            </a>
+
+        </div>
+    </div>
+</main>
+
+<!-- This will use a reusable footer for logged-in members -->
+<div th:replace="~{fragments :: member-footer}"></div>
+
+<script>
+    // This script activates the Lucide icons
+    lucide.createIcons();
+</script>
+</body>
+</html>

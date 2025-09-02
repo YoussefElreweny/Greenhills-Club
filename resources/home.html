@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Green Hills Club</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .hero-bg {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://placehold.co/1600x900/228B22/FFFFFF?text=Welcome+to+GHC');
+        background-size: cover;
+        background-position: center;
+    }
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Public Header -->
+<div th:replace="~{fragments :: public-header}"></div>
+
+<main>
+  <!-- Hero Section -->
+  <section id="home" class="hero-bg text-white h-[70vh] flex items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">Welcome to Green Hills Club</h1>
+      <p class="text-lg md:text-xl max-w-2xl mx-auto drop-shadow-md">Your local community for sports, fitness, and friendship.</p>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section id="about" class="py-16 md:py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl font-bold text-center text-green-800 mb-12">About Our Club</h2>
+      <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+        <div class="md:w-1/2">
+          <img th:src="@{/images/club-logo.jpg}" alt="Club Photo" class="rounded-lg shadow-md">
+        </div>
+        <div class="md:w-1/2">
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Founded in 2023, the Green Hills Club is a non-profit organization dedicated to promoting a healthy and active lifestyle within our neighborhood. We believe in the power of sports to bring people together.
+          </p>
+          <p class="text-gray-600 leading-relaxed">
+            Our mission is to build a strong, connected community through the joy of sports and recreation. Our state-of-the-art facilities and friendly staff are here to support you on your fitness journey.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Membership Section -->
+  <!-- Membership Section - Fully Dynamic with Price -->
+  <section id="membership" class="py-16 md:py-24 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl font-bold text-center text-green-800 mb-12">Join Our Community</h2>
+      <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">Membership Plans</h3>
+
+        <!-- This message will show only if the admin hasn't created any plans yet -->
+        <div th:if="${memberships == null || memberships.isEmpty()}" class="text-center text-gray-500 py-8">
+          <p>Membership plan details are being updated. Please check back soon!</p>
+        </div>
+
+        <!-- The main container for the plan cards. It only appears if memberships exist. -->
+        <div th:if="${memberships != null && !memberships.isEmpty()}" class="grid md:grid-cols-2 gap-8 text-center">
+
+          <!--
+            =======================================================
+            THIS IS THE DYNAMIC LOOP.
+            It will be repeated for every "plan" object in the "memberships" list
+            that your HomeController provides from the MembershipStore.
+            =======================================================
+          -->
+          <div th:each="plan : ${memberships}" class="border border-gray-200 p-6 rounded-lg">
+
+            <!-- The membershipType (e.g., "Individual", "Family") is now dynamic -->
+            <h4 class="text-xl font-semibold mb-2" th:text="${plan.membershipType}">Membership Plan Title</h4>
+
+            <!-- The price is now dynamic -->
+            <p class="text-3xl font-bold text-green-600 mb-4">
+              $<span th:text="${#numbers.formatDecimal(plan.price, 1, 0)}">40</span>
+              <span class="text-lg font-normal">/month</span>
+            </p>
+
+            <!-- I could make these benefits dynamic as well in a future version -->
+            <ul class="text-gray-600 space-y-2">
+              <li>Access to all facilities</li>
+              <li>Entry to member events</li>
+              <!-- A conditional benefit shown only for specific plan types -->
+              <li th:if="${plan.membershipType.equalsIgnoreCase('Family')}">Up to 4 family members</li>
+            </ul>
+          </div>
+          <!-- LOOP ENDS HERE -->
+
+        </div>
+        <div class="text-center mt-8">
+          <a th:href="@{/login}" class="bg-green-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-700 transition duration-300 text-lg">Join or Sign In</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Public Footer -->
+<div th:replace="~{fragments :: public-footer}"></div>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Green Hills Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Public Header -->
+<div th:replace="~{fragments :: public-header}"></div>
+
+<main class="flex items-center justify-center py-12 md:py-16">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+        <div class="text-center mb-8">
+            <img th:src="@{/images/club-logo.jpg}" alt="Green Hills Club Logo" class="h-20 w-20 mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/100x100/2E8B57/FFFFFF?text=GHC';">
+            <h2 class="text-2xl font-bold text-green-800">Create Your Account</h2>
+        </div>
+
+        <!-- Registration Form -->
+        <!-- Note for backend: This form should POST to a /register endpoint -->
+        <form th:action="@{/register}" method="post">
+            <!-- Display registration errors here if any -->
+
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <input type="text" id="username" name="username" placeholder="Choose a username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a strong password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" required>
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+                    Register
+                </button>
+            </div>
+        </form>
+
+        <p class="text-center text-gray-600 text-sm mt-6">
+            Already have an account?
+            <a th:href="@{/login}" class="font-bold text-green-600 hover:text-green-800">
+                Sign In here
+            </a>
+        </p>
+    </div>
+</main>
+
+<!-- Public Footer -->
+<div th:replace="~{fragments :: public-footer}"></div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- =================================================================== -->
+<!-- ===================== PUBLIC FRAGMENTS ============================ -->
+<!-- =================================================================== -->
+
+<!-- Public Header Fragment -->
+<header th:fragment="public-header" class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <a href="/#home" class="flex items-center">
+            <img th:src="@{/images/club-logo.jpg}" alt="Green Hills Club Logo" class="h-12 w-12 mr-3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/2E8B57/FFFFFF?text=GHC';">
+            <span class="font-bold text-xl text-green-800">Green Hills Club</span>
+        </a>
+        <div class="hidden md:flex space-x-6 items-center">
+            <a href="/#about" class="text-gray-600 hover:text-green-700 transition duration-300">About Us</a>
+            <a href="/#membership" class="text-gray-600 hover:text-green-700 transition duration-300">Membership</a>
+            <a th:href="@{/login}" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300">Member Login</a>
+        </div>
+    </nav>
+</header>
+
+<!-- Public Footer Fragment -->
+<footer th:fragment="public-footer" class="bg-gray-800 text-white">
+    <div class="container mx-auto px-6 py-8 text-center">
+        <p>&copy; <span th:text="${#dates.year(#dates.createNow())}"></span> Green Hills Club. All Rights Reserved.</p>
+    </div>
+</footer>
+
+
+<!-- =================================================================== -->
+<!-- ===================== MEMBER FRAGMENTS ============================ -->
+<!-- =================================================================== -->
+
+<!-- Member Header Fragment -->
+<header th:fragment="member-header" class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <a th:href="@{/#home}" class="flex items-center">
+            <img th:src="@{/images/club-logo.jpg}" alt="Green Hills Club Logo" class="h-12 w-12 mr-3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/2E8B57/FFFFFF?text=GHC';">
+            <span class="font-bold text-xl text-green-800">Green Hills Club</span>
+        </a>
+        <div class="hidden md:flex space-x-6 items-center">
+            <a th:href="@{/member/dashboard}" class="text-gray-600 hover:text-green-700 transition duration-300">Dashboard</a>
+            <a th:href="@{/member/activities}" class="text-gray-600 hover:text-green-700 transition duration-300">Activities</a>
+            <a th:href="@{/member/events}" class="text-gray-600 hover:text-green-700 transition duration-300">Events</a>
+            <!-- Logout Form -->
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300">Logout</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<!-- Member Footer Fragment -->
+<footer th:fragment="member-footer" class="bg-gray-800 text-white">
+    <div class="container mx-auto px-6 py-8 text-center">
+        <p class="text-gray-400">Welcome, valued member!</p>
+        <p>&copy; <span th:text="${#dates.year(#dates.createNow())}"></span> Green Hills Club. All Rights Reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

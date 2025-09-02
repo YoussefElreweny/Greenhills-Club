@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activities | Green Hills Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Member Header -->
+<div th:replace="~{fragments :: member-header}"></div>
+
+<main>
+    <!-- Activities Section -->
+    <section id="activities" class="py-16 md:py-24">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-green-800 mb-12">Our Activities</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+                <!-- START OF YOUR ORIGINAL STATIC CARDS -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300"><div class="p-6 text-center"><i data-lucide="dumbbell" class="h-12 w-12 mx-auto text-green-600 mb-4"></i><h3 class="font-semibold text-xl mb-2">Weightlifting</h3><p class="text-gray-600 text-sm">Build strength in our fully equipped weightlifting area.</p></div></div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300"><div class="p-6 text-center"><i data-lucide="footprints" class="h-12 w-12 mx-auto text-green-600 mb-4"></i><h3 class="font-semibold text-xl mb-2">Running & Athletics</h3><p class="text-gray-600 text-sm">Join our running groups or train on our track.</p></div></div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300"><div class="p-6 text-center"><i data-lucide="basketball" class="h-12 w-12 mx-auto text-green-600 mb-4"></i><h3 class="font-semibold text-xl mb-2">Basketball</h3><p class="text-gray-600 text-sm">Shoot some hoops on our indoor and outdoor courts.</p></div></div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300"><div class="p-6 text-center"><i data-lucide="waves" class="h-12 w-12 mx-auto text-green-600 mb-4"></i><h3 class="font-semibold text-xl mb-2">Swimming</h3><p class="text-gray-600 text-sm">Take a dip or swim laps in our community pool.</p></div></div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300"><div class="p-6 text-center"><i data-lucide="football" class="h-12 w-12 mx-auto text-green-600 mb-4"></i><h3 class="font-semibold text-xl mb-2">Soccer</h3><p class="text-gray-600 text-sm">Join a team and play on our well-maintained fields.</p></div></div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300"><div class="p-6 text-center"><i data-lucide="tennis-ball" class="h-12 w-12 mx-auto text-green-600 mb-4"></i><h3 class="font-semibold text-xl mb-2">Tennis</h3><p class="text-gray-600 text-sm">Enjoy a match on one of our premium tennis courts.</p></div></div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300"><div class="p-6 text-center"><i data-lucide="horse" class="h-12 w-12 mx-auto text-green-600 mb-4"></i><h3 class="font-semibold text-xl mb-2">Equestrian</h3><p class="text-gray-600 text-sm">Learn to ride or improve your skills at our stables.</p></div></div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300"><div class="p-6 text-center"><i data-lucide="users" class="h-12 w-12 mx-auto text-green-600 mb-4"></i><h3 class="font-semibold text-xl mb-2">And More!</h3><p class="text-gray-600 text-sm">We are always adding new activities for our members.</p></div></div>
+                <!-- END OF YOUR ORIGINAL STATIC CARDS -->
+
+                <!--
+                  START OF THE NEW DYNAMIC SECTION
+                  This will loop through the 'activities' list from the MemberController
+                  and create a new card for each activity added by the admin.
+                  It uses the exact same styling as your static cards.
+                -->
+                <th:block th:each="activity : ${activities}">
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300">
+                        <div class="p-6 text-center">
+                            <!-- We can use a default icon for dynamically added activities -->
+                            <i data-lucide="award" class="h-12 w-12 mx-auto text-green-600 mb-4"></i>
+                            <!-- We use th:text to set the name and description from the activity object -->
+                            <h3 class="font-semibold text-xl mb-2" th:text="${activity.name}"></h3>
+                            <p class="text-gray-600 text-sm" th:text="${activity.description}"></p>
+                        </div>
+                    </div>
+                </th:block>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Member Footer -->
+<div th:replace="~{fragments :: member-footer}"></div>
+
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>

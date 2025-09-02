@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Green Hills Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-gray-100">
+
+<!-- Header -->
+<header class="bg-gray-800 text-white shadow-lg">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold">Green Hills Club - Admin Dashboard</h1>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                Log Out
+            </button>
+        </form>
+    </div>
+</header>
+
+<main class="container mx-auto px-6 py-8">
+
+    <!-- Section 1: Manage Events -->
+    <section id="manage-events" class="bg-white p-6 md:p-8 rounded-lg shadow-md mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Manage Events</h2>
+        <form th:action="@{/admin/events/add}" th:object="${newEvent}" method="post" class="mb-8 p-4 border rounded-md">
+            <h3 class="text-lg font-semibold mb-4">Add a New Event</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input type="text" th:field="*{title}" placeholder="Event Title" class="p-2 border rounded" required>
+                <input type="date" th:field="*{date}" class="p-2 border rounded" required>
+                <input type="text" th:field="*{description}" placeholder="Short Description" class="p-2 border rounded">
+            </div>
+            <button type="submit" class="mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded">Add Event</button>
+        </form>
+        <h3 class="text-lg font-semibold mb-4">Current Events</h3>
+        <table class="min-w-full bg-white">
+            <thead class="bg-gray-200">
+            <tr><th class="py-2 px-4 text-left">Title</th><th class="py-2 px-4 text-left">Date</th><th class="py-2 px-4 text-left">Actions</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="event : ${events}" class="border-b"><td class="py-2 px-4" th:text="${event.title}"></td><td class="py-2 px-4" th:text="${#temporals.format(event.date, 'dd MMM yyyy')}"></td><td class="py-2 px-4"><form th:action="@{/admin/events/delete/{id}(id=${event.id})}" method="post" class="inline"><button type="submit" class="text-red-600 hover:text-red-800 font-semibold">Delete</button></form></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section 2: Manage Activities -->
+    <section id="manage-activities" class="bg-white p-6 md:p-8 rounded-lg shadow-md mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Manage Activities</h2>
+        <form th:action="@{/admin/activities/add}" th:object="${newActivity}" method="post" class="mb-8 p-4 border rounded-md">
+            <h3 class="text-lg font-semibold mb-4">Add a New Activity</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" th:field="*{name}" placeholder="Activity Name" class="p-2 border rounded" required>
+                <input type="text" th:field="*{description}" placeholder="Description" class="p-2 border rounded">
+            </div>
+            <button type="submit" class="mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded">Add Activity</button>
+        </form>
+        <h3 class="text-lg font-semibold mb-4">Current Activities</h3>
+        <table class="min-w-full bg-white">
+            <thead class="bg-gray-200">
+            <tr><th class="py-2 px-4 text-left">Name</th><th class="py-2 px-4 text-left">Description</th><th class="py-2 px-4 text-left">Actions</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="activity : ${activities}" class="border-b"><td class="py-2 px-4" th:text="${activity.name}"></td><td class="py-2 px-4" th:text="${activity.description}"></td><td class="py-2 px-4"><form th:action="@{/admin/activities/delete/{id}(id=${activity.id})}" method="post" class="inline"><button type="submit" class="text-red-600 hover:text-red-800 font-semibold">Delete</button></form></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section 3: Manage Memberships -->
+    <section id="manage-memberships" class="bg-white p-6 md:p-8 rounded-lg shadow-md mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Manage Memberships</h2>
+
+        <!-- Form to Add a New Membership -->
+        <!--
+          - This form POSTs to "/admin/memberships/add".
+          - It's bound to the empty "newMembership" object from the AdminController.
+        -->
+        <form th:action="@{/admin/memberships/add}" th:object="${newMembership}" method="post" class="mb-8 p-4 border rounded-md">
+            <h3 class="text-lg font-semibold mb-4">Add a New Membership Plan</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="membershipType" class="block text-gray-700 text-sm font-bold mb-2">Plan Type:</label>
+                    <!-- Connects this input to the 'membershipType' field of the 'newMembership' object -->
+                    <input type="text" th:field="*{membershipType}" id="membershipType" placeholder="e.g., Gold, Family, Individual" class="p-2 border rounded w-full" required>
+                </div>
+                <div>
+                    <label for="price" class="block text-gray-700 text-sm font-bold mb-2">Price:</label>
+                    <!-- Connects this input to the 'membershipType' field of the 'newMembership' object -->
+                    <input type="text" th:field="*{price}" id="price" placeholder="e.g., $100, $200, $300" class="p-2 border rounded w-full" required>
+                </div>
+                <div>
+                    <label for="userId" class="block text-gray-700 text-sm font-bold mb-2">Assign to User ID (Optional):</label>
+                    <!-- For creating a PLAN, this might be left empty. For assigning, an admin would enter a User's ID. -->
+                    <input type="number" th:field="*{userId}" id="userId" placeholder="Enter User ID to assign" class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label for="startDate" class="block text-gray-700 text-sm font-bold mb-2">Start Date:</label>
+                    <input type="date" th:field="*{startDate}" id="startDate" class="p-2 border rounded w-full" required>
+                </div>
+                <div>
+                    <label for="expiryDate" class="block text-gray-700 text-sm font-bold mb-2">Expiry Date:</label>
+                    <input type="date" th:field="*{expiryDate}" id="expiryDate" class="p-2 border rounded w-full" required>
+                </div>
+            </div>
+            <button type="submit" class="mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded">Add Membership</button>
+        </form>
+
+
+        <!-- Table of Existing Memberships -->
+        <h3 class="text-lg font-semibold mb-4">Current Memberships</h3>
+        <table class="min-w-full bg-white">
+            <thead class="bg-gray-200">
+            <tr>
+                <th class="py-2 px-4 text-left">Membership ID</th>
+                <th class="py-2 px-4 text-left">User ID</th>
+                <th class="py-2 px-4 text-left">Plan Type</th>
+                <th class="py-2 px-4 text-left">Expires On</th>
+                <th class="py-2 px-4 text-left">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="membership : ${memberships}" class="border-b">
+                <td class="py-2 px-4" th:text="${membership.id}"></td>
+                <td class="py-2 px-4" th:text="${membership.userId}"></td>
+                <td class="py-2 px-4" th:text="${membership.membershipType}"></td>
+                <td class="py-2 px-4" th:text="${membership.price}"></td>
+                <td class="py-2 px-4" th:text="${#temporals.format(membership.expiryDate, 'dd MMM yyyy')}"></td>
+                <td class="py-2 px-4">
+                    <form th:action="@{/admin/memberships/delete/{id}(id=${membership.id})}" method="post" class="inline">
+                        <button type="submit" class="text-red-600 hover:text-red-800 font-semibold">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section 4: Manage Users -->
+    <section id="manage-users" class="bg-white p-6 md:p-8 rounded-lg shadow-md mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Manage Users</h2>
+        <!-- User management is typically done by editing memberships or specific user profiles -->
+        <h3 class="text-lg font-semibold mb-4">Current Users</h3>
+        <table class="min-w-full bg-white">
+            <thead class="bg-gray-200">
+            <tr><th class="py-2 px-4 text-left">ID</th><th class="py-2 px-4 text-left">Username</th><th class="py-2 px-4 text-left">Email</th><th class="py-2 px-4 text-left">Role</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}" class="border-b">
+                <td class="py-2 px-4" th:text="${user.id}"></td>
+                <td class="py-2 px-4" th:text="${user.username}"></td>
+                <td class="py-2 px-4" th:text="${user.email}"></td>
+                <td class="py-2 px-4" th:text="${user.role}"></td>
+                <!-- Add edit/delete for users if needed -->
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+
+</body>
+</html>

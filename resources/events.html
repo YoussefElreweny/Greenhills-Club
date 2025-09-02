@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | Green Hills Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Member Header -->
+<div th:replace="~{fragments :: member-header}"></div>
+
+<main>
+    <!-- Events Section -->
+    <section id="events" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-green-800 mb-12">Upcoming Events</h2>
+            <div class="max-w-4xl mx-auto">
+
+                <!-- Helper message for when no events are scheduled -->
+                <div th:if="${events.isEmpty()}" class="text-center text-gray-500">
+                    <p>There are no upcoming events scheduled at this time. Please check back soon!</p>
+                </div>
+
+                <!--
+                    THE DYNAMIC LOOP SECTION
+                    This block will loop through the 'events' list from your MemberController
+                    and create an event listing for each one.
+                -->
+                <div th:each="event : ${events}" class="flex flex-col sm:flex-row items-center bg-gray-50 p-4 rounded-lg shadow-sm mb-6">
+                    <div class="bg-green-600 text-white text-center rounded-lg p-4 w-full sm:w-24 mb-4 sm:mb-0 sm:mr-6">
+                        <!-- We use Thymeleaf's #temporals utility to format the date -->
+                        <!-- #temporals.format(date, 'dd') gets the day number (e.g., "15") -->
+                        <span class="text-4xl font-bold" th:text="${#temporals.format(event.date, 'dd')}">15</span>
+                        <!-- #temporals.format(date, 'MMM') gets the abbreviated month (e.g., "AUG") -->
+                        <span class="block text-sm" th:text="${#temporals.format(event.date, 'MMM')}">AUG</span>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <!-- We use th:text to set the title and description from the event object -->
+                        <h3 class="font-semibold text-xl text-gray-800" th:text="${event.title}">Annual Summer Sports Fest</h3>
+                        <p class="text-gray-600" th:text="${event.description}">A full day of friendly competition, food, and fun for the whole family.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Member Footer -->
+<div th:replace="~{fragments :: member-footer}"></div>
+
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>
